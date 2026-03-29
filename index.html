@@ -560,13 +560,10 @@ async function saveToSheet() {
     params.set('roiMultiple', payload.roiMultiple || '');
     params.set('consultingFee', payload.consultingFee || '');
 
-    const res = await fetch(GAS_URL + '?' + params.toString(), {
-      method: 'GET',
-      mode: 'no-cors'
-    });
+    const res = await fetch(GAS_URL + '?' + params.toString());
+    const data = await res.json();
+    if (data.status !== 'ok') throw new Error(data.message || '保存エラー');
 
-    // no-corsではレスポンス読めないが送信は成功
-    await new Promise(resolve => setTimeout(resolve, 1500));
     toast('スプレッドシートに保存しました！');
     _doReset();
 
@@ -664,6 +661,12 @@ function _doReset() {
   document.getElementById('clientName').value = '';
   document.getElementById('staffName').value = '';
   document.getElementById('memo').value = '';
+  // パターンメモ（p1〜p4）をクリア
+  ['p1','p2','p3','p4'].forEach(p => {
+    const el = document.getElementById(p+'note');
+    if (el) el.value = '';
+    localStorage.removeItem('patnote_'+p);
+  });
   selectedPatterns = [1];
   [1,2,3,4].forEach(i => {
     document.getElementById('pp'+i).classList.toggle('sel', i===1);
