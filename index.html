@@ -183,7 +183,7 @@ tr:hover td{background:#dde3f8}
       <div class="card-title">伴走支援費用</div>
       <div class="field-row">
         <label>年間コンサルティング費用</label>
-        <input type="range" min="50" max="1000" step="50" value="300" oninput="updateFee(this.value)">
+        <input type="range" id="feeRange" min="50" max="1000" step="50" value="300" oninput="updateFee(this.value)">
         <span class="fv" id="feeVal">300万円</span>
       </div>
     </div>
@@ -667,6 +667,26 @@ function _doReset() {
     if (el) el.value = '';
     localStorage.removeItem('patnote_'+p);
   });
+  // 伴走費用スライダー
+  document.getElementById('feeRange').value = 300;
+  updateFee(300);
+  // ① コスト削減
+  document.getElementById('p1h').value = 30;
+  document.getElementById('p1w').value = 2000;
+  document.getElementById('p1m').value = 10;
+  // ② 売上創出
+  document.getElementById('p2h').value = 20;
+  document.getElementById('p2t').value = 2;
+  document.getElementById('p2u').value = 80;
+  document.getElementById('p2r').value = 20;
+  // ③ リスク回避
+  document.getElementById('p3n').value = 5;
+  document.getElementById('p3t').value = 4;
+  document.getElementById('p3w').value = 3000;
+  // ④ 組織資産
+  document.getElementById('p4n').value = 3;
+  document.getElementById('p4c').value = 150;
+  document.getElementById('p4r').value = 15;
   selectedPatterns = [1];
   [1,2,3,4].forEach(i => {
     document.getElementById('pp'+i).classList.toggle('sel', i===1);
