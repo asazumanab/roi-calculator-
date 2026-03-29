@@ -568,6 +568,7 @@ async function saveToSheet() {
     // no-corsではレスポンス読めないが送信は成功
     await new Promise(resolve => setTimeout(resolve, 1500));
     toast('スプレッドシートに保存しました！');
+    _doReset();
 
   } catch(e) {
     toast('通信エラー。GAS URLを確認してください。');
@@ -659,8 +660,7 @@ function updateGasStatus(ok) {
 }
 
 // ===== リセット =====
-function resetAll() {
-  if (!confirm('入力内容をリセットしますか？')) return;
+function _doReset() {
   document.getElementById('clientName').value = '';
   document.getElementById('staffName').value = '';
   document.getElementById('memo').value = '';
@@ -669,6 +669,11 @@ function resetAll() {
     document.getElementById('pp'+i).classList.toggle('sel', i===1);
   });
   calcP1(); calcP2(); calcP3(); calcP4();
+  updateSummary();
+}
+function resetAll() {
+  if (!confirm('入力内容をリセットしますか？')) return;
+  _doReset();
 }
 
 // ===== ユーティリティ =====
