@@ -538,6 +538,10 @@ async function saveToSheet() {
     clientName,
     staffName: document.getElementById('staffName').value.trim(),
     memo: document.getElementById('memo').value.trim(),
+    p1note: document.getElementById('p1note') ? document.getElementById('p1note').value.trim() : '',
+    p2note: document.getElementById('p2note') ? document.getElementById('p2note').value.trim() : '',
+    p3note: document.getElementById('p3note') ? document.getElementById('p3note').value.trim() : '',
+    p4note: document.getElementById('p4note') ? document.getElementById('p4note').value.trim() : '',
     patterns: selectedPatterns.map(String),
     pattern1: selectedPatterns.includes(1) ? results.p1 : {},
     pattern2: selectedPatterns.includes(2) ? results.p2 : {},
@@ -555,6 +559,10 @@ async function saveToSheet() {
     params.set('clientName', payload.clientName || '');
     params.set('staffName', payload.staffName || '');
     params.set('memo', payload.memo || '');
+    params.set('p1note', payload.p1note || '');
+    params.set('p2note', payload.p2note || '');
+    params.set('p3note', payload.p3note || '');
+    params.set('p4note', payload.p4note || '');
     params.set('patterns', JSON.stringify(payload.patterns || []));
     params.set('totalEffect', payload.totalEffect || '');
     params.set('roiMultiple', payload.roiMultiple || '');
@@ -665,7 +673,8 @@ function _doReset() {
   ['p1','p2','p3','p4'].forEach(p => {
     const el = document.getElementById(p+'note');
     if (el) el.value = '';
-    localStorage.removeItem('patnote_'+p);
+    localStorage.removeItem('patnote_' + p);
+    localStorage.setItem('patnote_' + p, ''); // 確実に空文字で上書き
   });
   // 伴走費用スライダー
   document.getElementById('feeRange').value = 300;
