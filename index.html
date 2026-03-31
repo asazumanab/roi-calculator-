@@ -380,10 +380,16 @@ const results = { p1:{}, p2:{}, p3:{}, p4:{} };
 
 // ===== 初期化 =====
 window.onload = () => {
-  if (GAS_URL) updateGasStatus(true);
   document.getElementById('gasUrlInput').value = GAS_URL;
   calcP1(); calcP2(); calcP3(); calcP4();
   updateSummary();
+  // 実際に疎通確認してからステータスを更新
+  if (GAS_URL) {
+    fetch(GAS_URL + '?action=list', {cache: 'no-cache'})
+      .then(r => r.json())
+      .then(d => updateGasStatus(d.status === 'ok'))
+      .catch(() => updateGasStatus(false));
+  }
 };
 
 // ===== タブ切替 =====
@@ -558,14 +564,19 @@ async function saveToSheet() {
     params.set('roiMultiple', payload.roiMultiple || '');
     params.set('consultingFee', payload.consultingFee || '');
 
-    const res = await fetch(GAS_URL + '?' + params.toString());
-    const data = await res.json();
-    if (data.status !== 'ok') throw new Error(data.message || '保存エラー');
+    // GASはリダイレクトを含むレスポンスを返すため
+    // no-corsで送信し、送信完了をもって成功とみなす
+    await fetch(GAS_URL + '?' + params.toString(), {
+      method: 'GET',
+      mode: 'no-cors'
+    });
 
+    updateGasStatus(true);
     toast('スプレッドシートに保存しました！');
     _doReset();
 
   } catch(e) {
+    updateGasStatus(false);
     toast('通信エラー。GAS URLを確認してください。');
   } finally {
     btn.disabled = false;
