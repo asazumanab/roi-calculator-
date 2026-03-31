@@ -429,9 +429,8 @@ function togglePattern(n) {
 
 // ===== 費用更新 =====
 function updateFee(v) {
-  fee = +v;
-  document.getElementById('feeVal').textContent = v + '万円';
-  document.getElementById('sumFee').textContent = v + '万円';
+  fee = +v || 0;
+  document.getElementById('sumFee').textContent = fee + '万円';
   updateSummary();
 }
 
