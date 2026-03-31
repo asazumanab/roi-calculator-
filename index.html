@@ -41,6 +41,9 @@ input,select,textarea,button{font-family:inherit;font-size:inherit}
 .field-row input[type=range]{flex:1;accent-color:#2a4d9b}
 .field-row .fv{font-size:12px;font-weight:600;min-width:72px;text-align:right;color:#1a1a2e}
 .field-row input[type=text],.field-row select{flex:1;border:1px solid #dde2ef;border-radius:6px;padding:6px 10px;font-size:13px;color:#1a1a2e;background:#fafbff}
+.field-row input[type=number]{width:110px;border:1.5px solid #c5cfe8;border-radius:6px;padding:6px 10px;font-size:13px;color:#1a1a2e;background:#fafbff;text-align:right;-moz-appearance:textfield}
+.field-row input[type=number]:focus{outline:none;border-color:#2a4d9b;background:#fff}
+.field-row input[type=number]::-webkit-inner-spin-button,.field-row input[type=number]::-webkit-outer-spin-button{opacity:1}
 .field-row input[type=text]:focus,.field-row select:focus{outline:none;border-color:#2a4d9b}
 .field-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .field-2 .f-item label{display:block;font-size:12px;color:#555;margin-bottom:4px}
@@ -183,8 +186,8 @@ tr:hover td{background:#dde3f8}
       <div class="card-title">伴走支援費用</div>
       <div class="field-row">
         <label>年間コンサルティング費用</label>
-        <input type="range" id="feeRange" min="50" max="1000" step="50" value="300" oninput="updateFee(this.value)">
-        <span class="fv" id="feeVal">300万円</span>
+        <input type="number" id="feeRange" min="1" value="300" oninput="updateFee(this.value)" style="width:110px;border:1.5px solid #c5cfe8;border-radius:6px;padding:6px 10px;font-size:13px;text-align:right">
+        <span style="font-size:12px;color:#555">万円</span>
       </div>
     </div>
 
@@ -211,9 +214,9 @@ tr:hover td{background:#dde3f8}
     <div class="card">
       <div class="card-title"><span class="badge b-blue">① コスト削減型</span>人件費・残業代の削減</div>
       <div class="hint">業務効率化によって削減された時間を、人件費コストに換算して ROI を算出します。</div>
-      <div class="field-row"><label>月次削減時間</label><input type="range" id="p1h" min="5" max="100" step="1" value="30" oninput="calcP1()"><span class="fv" id="p1hv">30h</span></div>
-      <div class="field-row"><label>平均時給単価</label><input type="range" id="p1w" min="1000" max="6000" step="100" value="2000" oninput="calcP1()"><span class="fv" id="p1wv">2,000円</span></div>
-      <div class="field-row"><label>営業利益率</label><input type="range" id="p1m" min="3" max="30" step="1" value="10" oninput="calcP1()"><span class="fv" id="p1mv">10%</span></div>
+      <div class="field-row"><label>月次削減時間</label><input type="number" id="p1h" min="0" value="30" oninput="calcP1()"><span style="font-size:12px;color:#555">h</span></div>
+      <div class="field-row"><label>平均時給単価</label><input type="number" id="p1w" min="0" value="2000" oninput="calcP1()"><span style="font-size:12px;color:#555">円</span></div>
+      <div class="field-row"><label>営業利益率</label><input type="number" id="p1m" min="0" max="100" value="10" oninput="calcP1()"><span style="font-size:12px;color:#555">%</span></div>
       <div class="result-grid">
         <div class="result-box"><div class="rl">年間削減コスト</div><div class="rv" id="p1r1">—</div></div>
         <div class="result-box"><div class="rl">売上換算インパクト</div><div class="rv" id="p1r2">—</div></div>
@@ -230,10 +233,10 @@ tr:hover td{background:#dde3f8}
     <div class="card">
       <div class="card-title"><span class="badge b-green">② 売上創出型</span>削減時間を付加価値業務へ転換</div>
       <div class="hint">空いた時間を営業・提案活動に充てることで生まれる追加売上を試算します。</div>
-      <div class="field-row"><label>月次創出時間</label><input type="range" id="p2h" min="5" max="80" step="1" value="20" oninput="calcP2()"><span class="fv" id="p2hv">20h</span></div>
-      <div class="field-row"><label>商談1件あたりの時間</label><input type="range" id="p2t" min="1" max="8" step="0.5" value="2" oninput="calcP2()"><span class="fv" id="p2tv">2h</span></div>
-      <div class="field-row"><label>平均成約単価</label><input type="range" id="p2u" min="10" max="500" step="10" value="80" oninput="calcP2()"><span class="fv" id="p2uv">80万円</span></div>
-      <div class="field-row"><label>成約率</label><input type="range" id="p2r" min="5" max="60" step="5" value="20" oninput="calcP2()"><span class="fv" id="p2rv">20%</span></div>
+      <div class="field-row"><label>月次創出時間</label><input type="number" id="p2h" min="0" value="20" oninput="calcP2()"><span style="font-size:12px;color:#555">h</span></div>
+      <div class="field-row"><label>商談1件あたりの時間</label><input type="number" id="p2t" min="0.1" step="0.5" value="2" oninput="calcP2()"><span style="font-size:12px;color:#555">h</span></div>
+      <div class="field-row"><label>平均成約単価</label><input type="number" id="p2u" min="0" value="80" oninput="calcP2()"><span style="font-size:12px;color:#555">万円</span></div>
+      <div class="field-row"><label>成約率</label><input type="number" id="p2r" min="0" max="100" value="20" oninput="calcP2()"><span style="font-size:12px;color:#555">%</span></div>
       <div class="result-grid">
         <div class="result-box"><div class="rl">月次追加商談数</div><div class="rv" id="p2r1">—</div></div>
         <div class="result-box"><div class="rl">年間追加売上（試算）</div><div class="rv" id="p2r2">—</div></div>
@@ -250,9 +253,9 @@ tr:hover td{background:#dde3f8}
     <div class="card">
       <div class="card-title"><span class="badge b-amber">③ リスク回避型</span>ミス・コンプライアンス違反の抑止</div>
       <div class="hint">人的ミスや手作業起因のトラブルを「潜在損失コスト」として可視化します。</div>
-      <div class="field-row"><label>月次ミス件数</label><input type="range" id="p3n" min="1" max="30" step="1" value="5" oninput="calcP3()"><span class="fv" id="p3nv">5件</span></div>
-      <div class="field-row"><label>1件あたり対処工数</label><input type="range" id="p3t" min="1" max="20" step="1" value="4" oninput="calcP3()"><span class="fv" id="p3tv">4h</span></div>
-      <div class="field-row"><label>担当者平均時給</label><input type="range" id="p3w" min="1500" max="6000" step="500" value="3000" oninput="calcP3()"><span class="fv" id="p3wv">3,000円</span></div>
+      <div class="field-row"><label>月次ミス件数</label><input type="number" id="p3n" min="0" value="5" oninput="calcP3()"><span style="font-size:12px;color:#555">件</span></div>
+      <div class="field-row"><label>1件あたり対処工数</label><input type="number" id="p3t" min="0" value="4" oninput="calcP3()"><span style="font-size:12px;color:#555">h</span></div>
+      <div class="field-row"><label>担当者平均時給</label><input type="number" id="p3w" min="0" value="3000" oninput="calcP3()"><span style="font-size:12px;color:#555">円</span></div>
       <div class="result-grid">
         <div class="result-box"><div class="rl">月次潜在ロスコスト</div><div class="rv" id="p3r1">—</div></div>
         <div class="result-box"><div class="rl">年間潜在ロスコスト</div><div class="rv" id="p3r2">—</div></div>
@@ -269,9 +272,9 @@ tr:hover td{background:#dde3f8}
     <div class="card">
       <div class="card-title"><span class="badge b-purple">④ 組織資産型</span>属人化解消・ナレッジ標準化</div>
       <div class="hint">「その人しか知らない」業務をAI化することで生まれる採用・引継ぎコストの削減を算出します。</div>
-      <div class="field-row"><label>属人化業務の担当者数</label><input type="range" id="p4n" min="1" max="20" step="1" value="3" oninput="calcP4()"><span class="fv" id="p4nv">3人</span></div>
-      <div class="field-row"><label>1人あたり採用・育成費</label><input type="range" id="p4c" min="50" max="500" step="10" value="150" oninput="calcP4()"><span class="fv" id="p4cv">150万円</span></div>
-      <div class="field-row"><label>離職リスク（年率）</label><input type="range" id="p4r" min="5" max="40" step="1" value="15" oninput="calcP4()"><span class="fv" id="p4rv">15%</span></div>
+      <div class="field-row"><label>属人化業務の担当者数</label><input type="number" id="p4n" min="0" value="3" oninput="calcP4()"><span style="font-size:12px;color:#555">人</span></div>
+      <div class="field-row"><label>1人あたり採用・育成費</label><input type="number" id="p4c" min="0" value="150" oninput="calcP4()"><span style="font-size:12px;color:#555">万円</span></div>
+      <div class="field-row"><label>離職リスク（年率）</label><input type="number" id="p4r" min="0" max="100" value="15" oninput="calcP4()"><span style="font-size:12px;color:#555">%</span></div>
       <div class="result-grid">
         <div class="result-box"><div class="rl">年間期待損失コスト</div><div class="rv" id="p4r1">—</div></div>
         <div class="result-box"><div class="rl">伴走費用との対比</div><div class="rv" id="p4r2">—</div></div>
@@ -428,12 +431,9 @@ function updateFee(v) {
 
 // ===== ① コスト削減 =====
 function calcP1() {
-  const h = +document.getElementById('p1h').value;
-  const w = +document.getElementById('p1w').value;
-  const m = +document.getElementById('p1m').value;
-  document.getElementById('p1hv').textContent = h + 'h';
-  document.getElementById('p1wv').textContent = w.toLocaleString() + '円';
-  document.getElementById('p1mv').textContent = m + '%';
+  const h = +document.getElementById('p1h').value || 0;
+  const w = +document.getElementById('p1w').value || 0;
+  const m = +document.getElementById('p1m').value || 0;
   const annual = Math.round(h * w * 12 / 10000);
   const rev = Math.round(annual / (m / 100));
   document.getElementById('p1r1').textContent = fmt(annual);
@@ -444,14 +444,10 @@ function calcP1() {
 
 // ===== ② 売上創出 =====
 function calcP2() {
-  const h = +document.getElementById('p2h').value;
-  const t = +document.getElementById('p2t').value;
-  const u = +document.getElementById('p2u').value;
-  const r = +document.getElementById('p2r').value;
-  document.getElementById('p2hv').textContent = h + 'h';
-  document.getElementById('p2tv').textContent = t + 'h';
-  document.getElementById('p2uv').textContent = u + '万円';
-  document.getElementById('p2rv').textContent = r + '%';
+  const h = +document.getElementById('p2h').value || 0;
+  const t = +document.getElementById('p2t').value || 0;
+  const u = +document.getElementById('p2u').value || 0;
+  const r = +document.getElementById('p2r').value || 0;
   const extraMtg = Math.floor(h / t);
   const annualRev = Math.round(extraMtg * (r / 100) * u * 12);
   document.getElementById('p2r1').textContent = extraMtg + '件/月';
@@ -462,12 +458,9 @@ function calcP2() {
 
 // ===== ③ リスク回避 =====
 function calcP3() {
-  const n = +document.getElementById('p3n').value;
-  const t = +document.getElementById('p3t').value;
-  const w = +document.getElementById('p3w').value;
-  document.getElementById('p3nv').textContent = n + '件';
-  document.getElementById('p3tv').textContent = t + 'h';
-  document.getElementById('p3wv').textContent = w.toLocaleString() + '円';
+  const n = +document.getElementById('p3n').value || 0;
+  const t = +document.getElementById('p3t').value || 0;
+  const w = +document.getElementById('p3w').value || 0;
   const monthly = Math.round(n * t * w / 10000);
   const annual = monthly * 12;
   document.getElementById('p3r1').textContent = fmt(monthly);
@@ -478,12 +471,9 @@ function calcP3() {
 
 // ===== ④ 組織資産 =====
 function calcP4() {
-  const n = +document.getElementById('p4n').value;
-  const c = +document.getElementById('p4c').value;
-  const r = +document.getElementById('p4r').value;
-  document.getElementById('p4nv').textContent = n + '人';
-  document.getElementById('p4cv').textContent = c + '万円';
-  document.getElementById('p4rv').textContent = r + '%';
+  const n = +document.getElementById('p4n').value || 0;
+  const c = +document.getElementById('p4c').value || 0;
+  const r = +document.getElementById('p4r').value || 0;
   const annual = Math.round(n * c * (r / 100));
   const ratio = fee > 0 ? (annual / fee).toFixed(1) : '—';
   document.getElementById('p4r1').textContent = fmt(annual);
@@ -676,7 +666,7 @@ function _doReset() {
     localStorage.removeItem('patnote_' + p);
     localStorage.setItem('patnote_' + p, ''); // 確実に空文字で上書き
   });
-  // 伴走費用スライダー
+  // 伴走費用
   document.getElementById('feeRange').value = 300;
   updateFee(300);
   // ① コスト削減
@@ -720,6 +710,20 @@ function toast(msg) {
   el.textContent = msg;
   el.classList.add('show');
   setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ===== PDFプレビュー タブ切替（グローバル） =====
+function switchRepTab(num, tab) {
+  const blockId = 'repPat' + num;
+  ['sales','std'].forEach(t => {
+    const btn = document.getElementById(blockId + '_tab_' + t);
+    const panel = document.getElementById(blockId + '_panel_' + t);
+    if (btn && panel) {
+      btn.style.background = t === tab ? '#2a4d9b' : '#f4f6fb';
+      btn.style.color      = t === tab ? '#fff'    : '#555';
+      panel.style.display  = t === tab ? 'block'   : 'none';
+    }
+  });
 }
 
 // ===== PDF出力 =====
@@ -894,18 +898,7 @@ function exportPDF() {
     </div>`;
   }
 
-  function switchRepTab(num, tab) {
-    const blockId = 'repPat' + num;
-    ['sales','std'].forEach(t => {
-      const btn = document.getElementById(blockId+'_tab_'+t);
-      const panel = document.getElementById(blockId+'_panel_'+t);
-      if (btn && panel) {
-        btn.style.background = t === tab ? '#2a4d9b' : '#f4f6fb';
-        btn.style.color = t === tab ? '#fff' : '#555';
-        panel.style.display = t === tab ? 'block' : 'none';
-      }
-    });
-  }
+  // switchRepTab はグローバルスコープで定義
 
   const p1 = results.p1 || {};
   const p2 = results.p2 || {};
