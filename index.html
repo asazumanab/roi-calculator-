@@ -469,8 +469,7 @@ async function loadHistory() {
   }
 }
 function showHistDetail(row) {
-  const lines = Object.entries(row).map(([k,v]) => k + ': ' + v).join('
-');
+  const lines = Object.entries(row).map(([k,v]) => k + ': ' + v).join('\n');
   alert(lines);
 }
 
@@ -497,8 +496,8 @@ function updateGasStatus(ok) {
 
 function fmt(n) {
   n = Math.round(n);
-  if (n >= 10000) return (Math.round(n/100)/100).toFixed(1) + '億円';
-  if (n >= 1000)  return (Math.round(n/100)/10).toFixed(1)  + '千万円';
+  if (n >= 10000) return (Math.floor(n/1000)/10).toFixed(1) + '億円';
+  if (n >= 1000)  return (Math.floor(n/100)/10).toFixed(1)  + '千万円';
   return n + '万円';
 }
 function toast(msg) {
@@ -657,20 +656,39 @@ function exportPDF() {
 }
 
 function doPrint() {
-  const html = document.getElementById('pdfContent').innerHTML;
-  const win = window.open('','_blank','width=900,height=750');
-  const switchFn = 'function switchRepTab(num,tab){var bid="rp"+num,ts=document.getElementById(bid+"_ts"),te=document.getElementById(bid+"_te"),ps=document.getElementById(bid+"_ps"),pe=document.getElementById(bid+"_pe");if(!ts||!te||!ps||!pe)return;if(tab==="sales"){ts.style.background="#2a4d9b";ts.style.color="#fff";te.style.background="#f4f6fb";te.style.color="#555";ps.style.display="block";pe.style.display="none"}else{te.style.background="#2a4d9b";te.style.color="#fff";ts.style.background="#f4f6fb";ts.style.color="#555";pe.style.display="block";ps.style.display="none"}}';
-  const styles = '*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",sans-serif;background:#fff;color:#1a1a2e}@page{size:A4;margin:10mm 12mm}@media print{body{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.np{display:none!important}}.pb{text-align:right;padding:12px 16px;background:#f4f6fb;border-bottom:1px solid #dde2ef}.pb button{background:#2a4d9b;color:#fff;border:none;padding:8px 20px;border-radius:6px;font-size:13px;cursor:pointer}';
-  const parts = [
+  var html    = document.getElementById('pdfContent').innerHTML;
+  var win     = window.open('','_blank','width=900,height=750');
+  var switchFn = [
+    'function switchRepTab(num,tab){',
+    'var bid="rp"+num,',
+    'ts=document.getElementById(bid+"_ts"),',
+    'te=document.getElementById(bid+"_te"),',
+    'ps=document.getElementById(bid+"_ps"),',
+    'pe=document.getElementById(bid+"_pe");',
+    'if(!ts||!te||!ps||!pe)return;',
+    'if(tab==="sales"){',
+    'ts.style.background="#2a4d9b";ts.style.color="#fff";',
+    'te.style.background="#f4f6fb";te.style.color="#555";',
+    'ps.style.display="block";pe.style.display="none"',
+    '}else{',
+    'te.style.background="#2a4d9b";te.style.color="#fff";',
+    'ts.style.background="#f4f6fb";ts.style.color="#555";',
+    'pe.style.display="block";ps.style.display="none"',
+    '}}'
+  ].join('');
+  var styles = '*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",sans-serif;background:#fff;color:#1a1a2e}@page{size:A4;margin:10mm 12mm}@media print{body{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.np{display:none!important}}.pb{text-align:right;padding:12px 16px;background:#f4f6fb;border-bottom:1px solid #dde2ef}.pb button{background:#2a4d9b;color:#fff;border:none;padding:8px 20px;border-radius:6px;font-size:13px;cursor:pointer}';
+  var scOpen  = '<sc' + 'ript>';
+  var scClose = '<' + '/sc' + 'ript>';
+  var doc = [
     '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>NAB ROIレポート</title>',
     '<style>', styles, '</style>',
-    '<script>', switchFn, '<\/script>',
+    scOpen, switchFn, scClose,
     '</head><body>',
     '<div class="pb np"><button onclick="window.print()">印刷 / PDFで保存</button></div>',
     html,
     '</body></html>'
-  ];
-  win.document.write(parts.join(''));
+  ].join('');
+  win.document.write(doc);
   win.document.close();
   win.focus();
 }
