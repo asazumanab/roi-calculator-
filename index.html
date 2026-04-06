@@ -397,17 +397,42 @@ async function saveToSheet() {
   };
 
   const params = new URLSearchParams();
-  params.set('action','save');
-  params.set('clientName', clientName);
-  params.set('staffName', document.getElementById('staffName').value.trim());
-  params.set('memo', document.getElementById('memo').value.trim());
-  params.set('patterns', JSON.stringify(selectedPatterns.map(String)));
+  params.set('action',      'save');
+  params.set('clientName',  clientName);
+  params.set('staffName',   document.getElementById('staffName').value.trim());
+  params.set('memo',        document.getElementById('memo').value.trim());
+  params.set('patterns',    JSON.stringify(selectedPatterns.map(String)));
   params.set('totalEffect', results._summary ? results._summary.totalEffect : 0);
-  params.set('roiPct', results._summary ? results._summary.roiPct : '');
+  params.set('roiPct',      results._summary ? results._summary.roiPct      : '');
+  // 投資額
   params.set('feeTraining', feeTraining);
-  params.set('feeTool', feeTool);
-  params.set('feeConsult', feeConsult);
-  params.set('consultingFee', fee);
+  params.set('feeTool',     feeTool);
+  params.set('feeConsult',  feeConsult);
+  // ① コスト削減パラメータ
+  params.set('p1h', document.getElementById('p1h').value);
+  params.set('p1w', document.getElementById('p1w').value);
+  params.set('p1m', document.getElementById('p1m').value);
+  params.set('p1AnnualSaving',  results.p1 && results.p1.annualSaving  ? results.p1.annualSaving  : '');
+  params.set('p1RevenueEquiv',  results.p1 && results.p1.revenueEquiv  ? results.p1.revenueEquiv  : '');
+  // ② 売上創出パラメータ
+  params.set('p2h', document.getElementById('p2h').value);
+  params.set('p2t', document.getElementById('p2t').value);
+  params.set('p2u', document.getElementById('p2u').value);
+  params.set('p2r', document.getElementById('p2r').value);
+  params.set('p2ExtraMtg',  results.p2 && results.p2.extraMeetings ? results.p2.extraMeetings : '');
+  params.set('p2AnnualRev', results.p2 && results.p2.annualRevenue  ? results.p2.annualRevenue  : '');
+  // ③ リスク回避パラメータ
+  params.set('p3n', document.getElementById('p3n').value);
+  params.set('p3t', document.getElementById('p3t').value);
+  params.set('p3w', document.getElementById('p3w').value);
+  params.set('p3Monthly', results.p3 && results.p3.annualLoss ? Math.round(results.p3.annualLoss / 12) : '');
+  params.set('p3Annual',  results.p3 && results.p3.annualLoss ? results.p3.annualLoss : '');
+  // ④ 組織資産パラメータ
+  params.set('p4n', document.getElementById('p4n').value);
+  params.set('p4c', document.getElementById('p4c').value);
+  params.set('p4r', document.getElementById('p4r').value);
+  params.set('p4Annual', results.p4 && results.p4.annualRisk ? results.p4.annualRisk : '');
+  // 営業メモ
   params.set('noteP1', patNotes[1]);
   params.set('noteP2', patNotes[2]);
   params.set('noteP3', patNotes[3]);
